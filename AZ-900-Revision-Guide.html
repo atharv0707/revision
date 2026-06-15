@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AZ-900 Revision Guide</title>
+<style>
+  :root{
+    --bg:#0b1220; --panel:#121b2e; --panel2:#0f1828; --ink:#e8eef7; --muted:#9fb0c8;
+    --accent:#3b82f6; --accent2:#22d3ee; --good:#22c55e; --bad:#ef4444; --warn:#f59e0b;
+    --line:#22304a; --chip:#1c2942;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:linear-gradient(180deg,#0b1220,#0a0f1a);color:var(--ink);
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
+  header.hero{padding:48px 24px 32px;text-align:center;border-bottom:1px solid var(--line);
+    background:radial-gradient(1200px 400px at 50% -50%,rgba(59,130,246,.18),transparent)}
+  .hero h1{font-size:38px;margin:0 0 6px;letter-spacing:-.5px}
+  .hero p{color:var(--muted);margin:4px 0;font-size:17px}
+  .badge{display:inline-block;background:var(--chip);border:1px solid var(--line);color:var(--accent2);
+    padding:4px 12px;border-radius:999px;font-size:13px;margin-top:10px}
+  .wrap{max-width:1000px;margin:0 auto;padding:0 20px}
+  nav.toc{position:sticky;top:0;z-index:20;background:rgba(11,18,32,.92);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);padding:10px 0}
+  nav.toc .wrap{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+  nav.toc a{color:var(--muted);text-decoration:none;font-size:13px;padding:6px 12px;border-radius:8px;border:1px solid transparent}
+  nav.toc a:hover{color:var(--ink);background:var(--chip);border-color:var(--line)}
+  section{padding:34px 0;border-bottom:1px solid var(--line)}
+  h2{font-size:27px;margin:0 0 4px;display:flex;align-items:center;gap:10px}
+  h2 .pct{font-size:13px;color:var(--accent2);background:var(--chip);border:1px solid var(--line);
+    padding:3px 10px;border-radius:999px;font-weight:600}
+  h3{font-size:19px;margin:26px 0 8px;color:#cfe0ff}
+  h4{font-size:16px;margin:16px 0 6px;color:var(--accent2)}
+  ul{margin:8px 0 8px 0;padding-left:22px}
+  li{margin:5px 0}
+  li b, p b{color:#fff}
+  .lead{color:var(--muted)}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:14px 0}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+  @media(max-width:760px){.grid2,.grid3{grid-template-columns:1fr}}
+  .pill{display:inline-block;background:var(--chip);border:1px solid var(--line);border-radius:8px;
+    padding:2px 8px;font-size:12px;color:var(--accent2);margin:2px}
+  .fig{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:16px;margin:16px 0;text-align:center}
+  .fig .cap{color:var(--muted);font-size:13px;margin-top:8px}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:14.5px}
+  th,td{border:1px solid var(--line);padding:9px 11px;text-align:left;vertical-align:top}
+  th{background:var(--chip);color:#cfe0ff}
+  tr:nth-child(even) td{background:rgba(255,255,255,.02)}
+  .tip{border-left:3px solid var(--accent);background:rgba(59,130,246,.08);padding:10px 14px;border-radius:0 10px 10px 0;margin:12px 0}
+  .exam{border-left:3px solid var(--warn);background:rgba(245,158,11,.08);padding:10px 14px;border-radius:0 10px 10px 0;margin:12px 0}
+  .exam b{color:var(--warn)}
+  /* quiz */
+  .quiz{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px;margin:16px 0}
+  .q{border-bottom:1px solid var(--line);padding:14px 0}
+  .q:last-child{border-bottom:none}
+  .q .stem{font-weight:600;margin-bottom:10px}
+  .opt{display:block;width:100%;text-align:left;background:var(--panel2);border:1px solid var(--line);color:var(--ink);
+    padding:10px 14px;border-radius:10px;margin:6px 0;cursor:pointer;font-size:15px;transition:.15s}
+  .opt:hover{border-color:var(--accent)}
+  .opt.correct{border-color:var(--good);background:rgba(34,197,94,.16)}
+  .opt.wrong{border-color:var(--bad);background:rgba(239,68,68,.16)}
+  .opt.disabled{cursor:default;opacity:.85}
+  .expl{display:none;margin-top:8px;font-size:14px;color:var(--muted);background:var(--panel2);
+    border:1px dashed var(--line);border-radius:10px;padding:10px 12px}
+  .expl.show{display:block}
+  .expl b{color:var(--good)}
+  #scorebar{position:sticky;bottom:0;background:rgba(11,18,32,.95);backdrop-filter:blur(6px);
+    border-top:1px solid var(--line);padding:12px 0;text-align:center;font-weight:600;z-index:20}
+  #scorebar .s{color:var(--accent2)}
+  .btn{background:var(--accent);color:#fff;border:none;padding:9px 18px;border-radius:10px;cursor:pointer;font-weight:600;font-size:14px}
+  .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--muted)}
+  footer{padding:30px 20px;text-align:center;color:var(--muted);font-size:13px}
+  svg text{font-family:-apple-system,"Segoe UI",Roboto,sans-serif}
+  .kbd{background:var(--chip);border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-size:12px}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <h1>Microsoft Azure Fundamentals — AZ-900</h1>
+  <p>Concise, full-syllabus revision guide with diagrams &amp; an interactive practice exam</p>
+  <span class="badge">Aligned to Skills Measured · Jan 14, 2026 · 700 to pass · ~45 questions · 45–60 min</span>
+</header>
+
+<nav class="toc">
+  <div class="wrap">
+    <a href="#d1">1 · Cloud Concepts</a>
+    <a href="#d2">2 · Architecture &amp; Services</a>
+    <a href="#d3">3 · Management &amp; Governance</a>
+    <a href="#cheat">Cheat Sheet</a>
+    <a href="#quiz">Practice Exam</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ DOMAIN 1 ============ -->
+<section id="d1">
+  <h2>Domain 1 — Describe Cloud Concepts <span class="pct">25–30%</span></h2>
+  <p class="lead">Cloud benefits, the shared responsibility model, service types (IaaS/PaaS/SaaS) and deployment models (public/private/hybrid).</p>
+
+  <h3>What is cloud computing?</h3>
+  <ul>
+    <li><b>Cloud computing</b> = delivery of computing services (compute, storage, networking, databases, AI) over the internet, pay-as-you-go.</li>
+    <li><b>Compute power</b> – CPU/GPU to run apps. <b>Storage</b> – files, databases, blobs.</li>
+    <li>Removes the need to buy and maintain your own physical hardware.</li>
+  </ul>
+
+  <h3>CapEx vs OpEx</h3>
+  <div class="grid2">
+    <div class="card">
+      <h4>CapEx — Capital Expenditure</h4>
+      <ul>
+        <li>Upfront spend on physical infrastructure (servers, datacentres).</li>
+        <li>Value depreciates over time; you plan years ahead.</li>
+        <li>Traditional on-premises model.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>OpEx — Operational Expenditure</h4>
+      <ul>
+        <li>Pay for services as you consume them (no upfront cost).</li>
+        <li>The <b>cloud / consumption-based</b> model.</li>
+        <li>Deduct from taxes the same year; scale up/down freely.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="exam"><b>Exam tip:</b> Cloud = <b>OpEx</b> + consumption-based pricing. "Pay only for what you use" and "no upfront cost" point to the cloud.</div>
+
+  <h3>Benefits of cloud computing</h3>
+  <table>
+    <tr><th>Benefit</th><th>Meaning</th></tr>
+    <tr><td><b>High availability</b></td><td>Services stay up via SLAs &amp; redundant infrastructure.</td></tr>
+    <tr><td><b>Scalability</b></td><td>Add resources to meet demand — <b>vertical</b> (bigger VM) or <b>horizontal</b> (more VMs).</td></tr>
+    <tr><td><b>Elasticity</b></td><td>Automatically scale resources up/down with demand (autoscaling).</td></tr>
+    <tr><td><b>Reliability</b></td><td>Recover from failures; distributed across regions.</td></tr>
+    <tr><td><b>Predictability</b></td><td>Performance (autoscale, load balancing) &amp; cost (TCO calculator, Cost Management).</td></tr>
+    <tr><td><b>Security &amp; governance</b></td><td>Templates, patching, policies enforce standards.</td></tr>
+    <tr><td><b>Manageability</b></td><td>Manage <i>of</i> the cloud (autoscale, templates) &amp; <i>in</i> the cloud (portal, CLI, APIs).</td></tr>
+  </table>
+  <div class="tip"><b>Vertical = scale up</b> (more CPU/RAM on one machine). <b>Horizontal = scale out</b> (more instances). Elasticity = the automatic version of scaling.</div>
+
+  <h3>Shared Responsibility Model</h3>
+  <div class="fig">
+    <svg viewBox="0 0 720 300" width="100%" style="max-width:720px">
+      <!-- columns -->
+      <g font-size="13" fill="#e8eef7" text-anchor="middle">
+        <text x="120" y="24" font-weight="700">On-Premises</text>
+        <text x="290" y="24" font-weight="700">IaaS</text>
+        <text x="450" y="24" font-weight="700">PaaS</text>
+        <text x="610" y="24" font-weight="700">SaaS</text>
+      </g>
+      <!-- legend -->
+      <rect x="20" y="270" width="14" height="14" fill="#3b82f6"/><text x="40" y="282" font-size="12" fill="#9fb0c8">Customer</text>
+      <rect x="160" y="270" width="14" height="14" fill="#475569"/><text x="180" y="282" font-size="12" fill="#9fb0c8">Shared</text>
+      <rect x="280" y="270" width="14" height="14" fill="#22d3ee"/><text x="300" y="282" font-size="12" fill="#9fb0c8">Provider</text>
+      <!-- rows: 10 layers compressed into 7 -->
+      <g font-size="10" text-anchor="middle" fill="#0b1220">
+        <!-- helper via repeated rects -->
+        <!-- Row labels left -->
+      </g>
+      <!-- We'll draw 7 stacked cells per column -->
+      <!-- column x starts -->
+      <!-- Layer labels -->
+      <g font-size="10" fill="#9fb0c8" text-anchor="end">
+        <text x="58" y="52">Data/Access</text>
+        <text x="58" y="80">Apps</text>
+        <text x="58" y="108">Runtime</text>
+        <text x="58" y="136">OS</text>
+        <text x="58" y="164">Network</text>
+        <text x="58" y="192">Hosts</text>
+        <text x="58" y="220">Physical</text>
+      </g>
+      <!-- On-Prem all customer -->
+      <g>
+        <rect x="65" y="42" width="110" height="186" fill="#3b82f6" opacity="0.85"/>
+        <text x="120" y="140" font-size="11" fill="#fff" text-anchor="middle" font-weight="700">Customer</text>
+        <text x="120" y="156" font-size="11" fill="#fff" text-anchor="middle">manages all</text>
+      </g>
+      <!-- IaaS -->
+      <g>
+        <rect x="235" y="42" width="110" height="84" fill="#3b82f6" opacity="0.85"/>
+        <rect x="235" y="126" width="110" height="28" fill="#475569"/>
+        <rect x="235" y="154" width="110" height="74" fill="#22d3ee" opacity="0.85"/>
+      </g>
+      <!-- PaaS -->
+      <g>
+        <rect x="395" y="42" width="110" height="28" fill="#3b82f6" opacity="0.85"/>
+        <rect x="395" y="70" width="110" height="56" fill="#475569"/>
+        <rect x="395" y="126" width="110" height="102" fill="#22d3ee" opacity="0.85"/>
+      </g>
+      <!-- SaaS -->
+      <g>
+        <rect x="555" y="42" width="110" height="28" fill="#475569"/>
+        <rect x="555" y="70" width="110" height="158" fill="#22d3ee" opacity="0.85"/>
+      </g>
+    </svg>
+    <div class="cap">As you move IaaS → PaaS → SaaS, the provider takes on more responsibility. <b>You always keep:</b> your data, accounts/identities, and devices.</div>
+  </div>
+  <ul>
+    <li><b>Always the customer's responsibility:</b> data, information, account &amp; access management, endpoints/devices.</li>
+    <li><b>Always the provider's responsibility:</b> physical hosts, physical network, physical datacentre.</li>
+    <li><b>Varies by service type:</b> OS, network controls, applications, identity &amp; directory infrastructure.</li>
+  </ul>
+
+  <h3>Cloud Service Types</h3>
+  <table>
+    <tr><th>Type</th><th>You manage</th><th>Examples / use</th></tr>
+    <tr><td><b>IaaS</b> (Infrastructure)</td><td>Most control — OS, runtime, apps, data. Provider handles hardware.</td><td>Azure VMs, lift-and-shift, full control, test/dev.</td></tr>
+    <tr><td><b>PaaS</b> (Platform)</td><td>Just your app &amp; data. Provider handles OS, middleware, runtime.</td><td>Azure App Service, SQL Database — dev focus.</td></tr>
+    <tr><td><b>SaaS</b> (Software)</td><td>Just data &amp; access. Provider handles everything else.</td><td>Microsoft 365, Outlook, Dynamics 365.</td></tr>
+  </table>
+  <div class="exam"><b>Exam tip:</b> "Maximum control / lift-and-shift" = <b>IaaS</b>. "Developers build apps without managing OS" = <b>PaaS</b>. "Ready-to-use software, just log in" = <b>SaaS</b>.</div>
+
+  <h3>Cloud Deployment Models</h3>
+  <div class="grid3">
+    <div class="card"><h4>Public</h4><ul><li>Owned by a cloud provider, shared by all.</li><li>No CapEx, high scale, pay-as-you-go.</li><li>Less control over security.</li></ul></div>
+    <div class="card"><h4>Private</h4><ul><li>Used by a single organisation.</li><li>More control &amp; compliance; higher cost.</li><li>Can be on-prem or hosted.</li></ul></div>
+    <div class="card"><h4>Hybrid</h4><ul><li>Combines public + private.</li><li>Flexibility, keep sensitive data private.</li><li>Most complex to manage.</li></ul></div>
+  </div>
+  <div class="tip"><b>Multi-cloud</b> = using more than one provider (e.g. Azure + AWS). <b>Azure Arc</b> manages resources across on-prem, multi-cloud and edge. <b>Azure VMware Solution</b> runs VMware workloads natively in Azure.</div>
+
+  <h3>The Consumption-Based Model &amp; Pricing Models</h3>
+  <ul>
+    <li>No upfront cost; pay only for resources used; stop paying when you stop using.</li>
+    <li>Benefits: better cash-flow planning, scale precisely with demand, no wasted idle capacity.</li>
+    <li><b>Pay-as-you-go</b> — pay per unit consumed, no commitment (most flexible, highest unit price).</li>
+    <li><b>Reserved / commitment</b> — commit 1 or 3 years for a large discount on predictable workloads.</li>
+    <li><b>Spot</b> — bid on spare capacity at deep discount; can be evicted when Azure needs it.</li>
+    <li><b>Hybrid Benefit / BYOL</b> — reuse existing licences to lower cost.</li>
+  </ul>
+
+  <h3>Serverless</h3>
+  <ul>
+    <li><b>Serverless</b> = run code/services without provisioning or managing any servers; the platform handles all infrastructure.</li>
+    <li><b>Event-driven</b> &amp; <b>auto-scaling</b> — scales from zero to thousands automatically.</li>
+    <li><b>Pay per execution</b> — billed only while your code runs, not for idle time.</li>
+    <li>Examples: <b>Azure Functions</b> (code), <b>Logic Apps</b> (workflows), <b>Azure Container Instances</b>, serverless SQL/Cosmos DB.</li>
+  </ul>
+  <div class="exam"><b>Exam tip:</b> "No servers to manage + pay only when code runs + scales automatically" = <b>serverless</b>. The flagship example is <b>Azure Functions</b>.</div>
+</section>
+
+<!-- ============ DOMAIN 2 ============ -->
+<section id="d2">
+  <h2>Domain 2 — Azure Architecture &amp; Services <span class="pct">35–40%</span></h2>
+  <p class="lead">The biggest domain: physical/management hierarchy, core compute, networking and storage services, plus identity, access &amp; security.</p>
+
+  <h3>Core Architectural Components</h3>
+  <div class="fig">
+    <svg viewBox="0 0 700 260" width="100%" style="max-width:700px">
+      <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#22d3ee"/></marker></defs>
+      <!-- Region -->
+      <rect x="20" y="20" width="300" height="220" rx="12" fill="#0f1828" stroke="#22304a"/>
+      <text x="170" y="44" text-anchor="middle" fill="#cfe0ff" font-size="14" font-weight="700">Azure Region (e.g. UK South)</text>
+      <text x="170" y="62" text-anchor="middle" fill="#9fb0c8" font-size="11">A geographical area with ≥1 datacentres</text>
+      <!-- AZs inside region -->
+      <g>
+        <rect x="40" y="80" width="80" height="60" rx="8" fill="#121b2e" stroke="#3b82f6"/>
+        <text x="80" y="115" text-anchor="middle" fill="#e8eef7" font-size="12">AZ 1</text>
+        <rect x="135" y="80" width="80" height="60" rx="8" fill="#121b2e" stroke="#3b82f6"/>
+        <text x="175" y="115" text-anchor="middle" fill="#e8eef7" font-size="12">AZ 2</text>
+        <rect x="230" y="80" width="70" height="60" rx="8" fill="#121b2e" stroke="#3b82f6"/>
+        <text x="265" y="115" text-anchor="middle" fill="#e8eef7" font-size="12">AZ 3</text>
+      </g>
+      <text x="170" y="170" text-anchor="middle" fill="#9fb0c8" font-size="11">Availability Zones = physically separate</text>
+      <text x="170" y="186" text-anchor="middle" fill="#9fb0c8" font-size="11">datacentres (own power, cooling, network)</text>
+      <text x="170" y="216" text-anchor="middle" fill="#22d3ee" font-size="11">Datacentres → contain racks → host VMs</text>
+      <!-- Region pair -->
+      <rect x="380" y="20" width="300" height="220" rx="12" fill="#0f1828" stroke="#22304a"/>
+      <text x="530" y="44" text-anchor="middle" fill="#cfe0ff" font-size="14" font-weight="700">Paired Region (e.g. UK West)</text>
+      <text x="530" y="120" text-anchor="middle" fill="#9fb0c8" font-size="12">≥300 mi (480 km) apart</text>
+      <text x="530" y="140" text-anchor="middle" fill="#9fb0c8" font-size="12">for disaster recovery &amp;</text>
+      <text x="530" y="160" text-anchor="middle" fill="#9fb0c8" font-size="12">sequential platform updates</text>
+      <line x1="322" y1="130" x2="378" y2="130" stroke="#22d3ee" stroke-width="2" marker-end="url(#ar)" marker-start="url(#ar)"/>
+    </svg>
+    <div class="cap">Geography → Region → Availability Zone → Datacentre. Region pairs sit ≥300 miles apart for resilience.</div>
+  </div>
+  <ul>
+    <li><b>Region:</b> a geographical area containing one or more datacentres connected by a low-latency network.</li>
+    <li><b>Availability Zone (AZ):</b> physically separate datacentres <i>within</i> a region — own power/cooling/network. Protects against datacentre failure. Use ≥2 for high availability.</li>
+    <li><b>Region pair:</b> two regions ≥300 miles apart; updates roll out one at a time; many services replicate here automatically.</li>
+    <li><b>Sovereign regions:</b> isolated instances — <b>Azure Government</b> (US) and <b>Azure China</b> (operated by 21Vianet).</li>
+  </ul>
+
+  <h4>Management Hierarchy (scope of governance)</h4>
+  <div class="fig">
+    <svg viewBox="0 0 640 230" width="100%" style="max-width:640px">
+      <g text-anchor="middle" font-size="13">
+        <rect x="200" y="14" width="240" height="38" rx="8" fill="#3b82f6"/><text x="320" y="38" fill="#fff" font-weight="700">Management Groups</text>
+        <rect x="200" y="66" width="240" height="38" rx="8" fill="#1d4ed8"/><text x="320" y="90" fill="#fff">Subscriptions</text>
+        <rect x="200" y="118" width="240" height="38" rx="8" fill="#0e7490"/><text x="320" y="142" fill="#fff">Resource Groups</text>
+        <rect x="200" y="170" width="240" height="38" rx="8" fill="#155e63"/><text x="320" y="194" fill="#fff">Resources</text>
+      </g>
+      <g stroke="#22d3ee" stroke-width="2" marker-end="url(#ar)">
+        <line x1="320" y1="52" x2="320" y2="64"/>
+        <line x1="320" y1="104" x2="320" y2="116"/>
+        <line x1="320" y1="156" x2="320" y2="168"/>
+      </g>
+      <text x="470" y="38" font-size="11" fill="#9fb0c8" text-anchor="start">Govern many subscriptions</text>
+      <text x="470" y="90" font-size="11" fill="#9fb0c8" text-anchor="start">Billing &amp; access boundary</text>
+      <text x="470" y="142" font-size="11" fill="#9fb0c8" text-anchor="start">Logical container; lifecycle</text>
+      <text x="470" y="194" font-size="11" fill="#9fb0c8" text-anchor="start">VM, DB, storage, etc.</text>
+    </svg>
+    <div class="cap">Policies &amp; RBAC applied at a higher level are inherited downward.</div>
+  </div>
+  <ul>
+    <li><b>Resources:</b> the services you create (VMs, databases, storage accounts…).</li>
+    <li><b>Resource Group:</b> logical container. A resource lives in exactly one RG; delete the RG → delete all its resources.</li>
+    <li><b>Subscription:</b> unit of billing &amp; access; logically groups resource groups. Has spending limits/quotas.</li>
+    <li><b>Management Group:</b> container above subscriptions to apply policy &amp; access at scale (inherited downward).</li>
+  </ul>
+
+  <h3>Compute Services</h3>
+  <table>
+    <tr><th>Service</th><th>What it is</th><th>Use when…</th></tr>
+    <tr><td><b>Virtual Machines (VMs)</b></td><td>IaaS — full OS control.</td><td>You need total control, lift-and-shift, custom software.</td></tr>
+    <tr><td><b>VM Scale Sets</b></td><td>Group of identical, load-balanced VMs that autoscale.</td><td>Scalable, highly available VM workloads.</td></tr>
+    <tr><td><b>Availability Sets</b></td><td>Spread VMs across fault &amp; update domains.</td><td>Protect against hardware/maintenance failure in one DC.</td></tr>
+    <tr><td><b>App Service</b></td><td>PaaS — host web apps/APIs without managing OS.</td><td>Web apps; just deploy code.</td></tr>
+    <tr><td><b>Azure Container Instances (ACI)</b></td><td>Run a single container fast, serverless.</td><td>Simple, isolated containers, burst jobs.</td></tr>
+    <tr><td><b>Azure Kubernetes Service (AKS)</b></td><td>Managed Kubernetes orchestration.</td><td>Many containers, microservices at scale.</td></tr>
+    <tr><td><b>Azure Functions</b></td><td>Serverless, event-driven code; pay per execution.</td><td>Short event-triggered tasks; no server mgmt.</td></tr>
+    <tr><td><b>Azure Virtual Desktop</b></td><td>Cloud-hosted Windows desktops (VDI).</td><td>Remote/secure desktops from anywhere.</td></tr>
+  </table>
+  <div class="exam"><b>Exam tip:</b> <b>Containers</b> are lightweight &amp; portable (share host OS) vs VMs (each has own OS). <b>Functions</b> = serverless/event-driven. <b>AKS</b> = orchestrate many containers.</div>
+  <h4>Resources required for a VM</h4>
+  <ul>
+    <li>A VM doesn't stand alone — creating one provisions: <b>size</b> (CPU/RAM family), <b>OS disk + optional data disks</b> (managed disks), a <b>virtual network &amp; subnet</b>, a <b>network interface (NIC)</b>, optionally a <b>public IP</b>, and a <b>network security group (NSG)</b>.</li>
+  </ul>
+  <h4>Application hosting options</h4>
+  <ul>
+    <li><b>VMs</b> (IaaS, full control) → <b>Containers</b> (ACI/AKS, portable, microservices) → <b>Web Apps / App Service</b> (PaaS, just deploy code). Choose based on how much control vs how little management you want.</li>
+  </ul>
+
+  <h3>Networking Services</h3>
+  <div class="fig">
+    <svg viewBox="0 0 700 220" width="100%" style="max-width:700px">
+      <rect x="30" y="40" width="300" height="150" rx="12" fill="#0f1828" stroke="#22304a"/>
+      <text x="180" y="62" text-anchor="middle" fill="#cfe0ff" font-size="13" font-weight="700">Virtual Network (VNet)</text>
+      <rect x="55" y="80" width="120" height="90" rx="8" fill="#121b2e" stroke="#3b82f6"/>
+      <text x="115" y="100" text-anchor="middle" fill="#e8eef7" font-size="11">Subnet A</text>
+      <rect x="70" y="112" width="40" height="34" rx="5" fill="#1d4ed8"/><text x="90" y="134" text-anchor="middle" fill="#fff" font-size="10">VM</text>
+      <rect x="120" y="112" width="40" height="34" rx="5" fill="#1d4ed8"/><text x="140" y="134" text-anchor="middle" fill="#fff" font-size="10">VM</text>
+      <rect x="190" y="80" width="120" height="90" rx="8" fill="#121b2e" stroke="#3b82f6"/>
+      <text x="250" y="100" text-anchor="middle" fill="#e8eef7" font-size="11">Subnet B</text>
+      <rect x="205" y="112" width="40" height="34" rx="5" fill="#0e7490"/><text x="225" y="134" text-anchor="middle" fill="#fff" font-size="10">DB</text>
+      <!-- on-prem -->
+      <rect x="430" y="60" width="240" height="110" rx="12" fill="#0f1828" stroke="#22304a"/>
+      <text x="550" y="84" text-anchor="middle" fill="#cfe0ff" font-size="13" font-weight="700">On-premises</text>
+      <line x1="330" y1="115" x2="430" y2="115" stroke="#22d3ee" stroke-width="2" marker-end="url(#ar)" marker-start="url(#ar)"/>
+      <text x="380" y="106" text-anchor="middle" fill="#9fb0c8" font-size="10">VPN Gateway /</text>
+      <text x="380" y="150" text-anchor="middle" fill="#9fb0c8" font-size="10">ExpressRoute</text>
+    </svg>
+    <div class="cap">VNets contain subnets; gateways connect to on-prem; NSGs filter traffic.</div>
+  </div>
+  <table>
+    <tr><th>Service</th><th>Purpose</th></tr>
+    <tr><td><b>Virtual Network (VNet)</b></td><td>Private network in Azure; isolate &amp; segment (subnets) resources.</td></tr>
+    <tr><td><b>VNet Peering</b></td><td>Connect two VNets so they communicate privately.</td></tr>
+    <tr><td><b>VPN Gateway</b></td><td>Encrypted site-to-site connection over the public internet.</td></tr>
+    <tr><td><b>ExpressRoute</b></td><td><b>Private</b> dedicated connection to Azure (not over the internet) — faster, more reliable, secure.</td></tr>
+    <tr><td><b>Azure DNS</b></td><td>Host &amp; resolve your domain names in Azure.</td></tr>
+    <tr><td><b>Load Balancer</b></td><td>Distributes traffic (Layer 4) across healthy resources.</td></tr>
+    <tr><td><b>Network Security Group (NSG)</b></td><td>Allow/deny inbound &amp; outbound traffic by rules (like a firewall on subnet/NIC).</td></tr>
+    <tr><td><b>Public endpoint</b></td><td>A resource is reachable over the public internet via a public IP.</td></tr>
+    <tr><td><b>Private endpoint</b></td><td>A private IP inside your VNet that connects to a service (e.g. Storage, SQL) so traffic never leaves the Azure backbone / hits the internet.</td></tr>
+  </table>
+  <div class="exam"><b>Exam tip:</b> <b>ExpressRoute</b> = private, does NOT go over the public internet. <b>VPN Gateway</b> = encrypted but over the internet. Need a fully private high-throughput link → ExpressRoute.</div>
+
+  <h3>Storage Services</h3>
+  <table>
+    <tr><th>Storage type</th><th>Best for</th></tr>
+    <tr><td><b>Blob Storage</b></td><td>Unstructured/object data — images, video, backups, logs.</td></tr>
+    <tr><td><b>Azure Files</b></td><td>Managed file shares (SMB/NFS); mount like a network drive.</td></tr>
+    <tr><td><b>Queue Storage</b></td><td>Messaging between app components (decoupling).</td></tr>
+    <tr><td><b>Table Storage</b></td><td>NoSQL key-value structured data.</td></tr>
+    <tr><td><b>Disk Storage</b></td><td>Managed disks attached to VMs (acts as the VM's hard drive).</td></tr>
+  </table>
+  <h4>Blob access tiers (cost vs access frequency)</h4>
+  <ul>
+    <li><b>Hot</b> – frequently accessed; highest storage cost, lowest access cost.</li>
+    <li><b>Cool</b> – infrequent, stored ≥30 days; lower storage cost.</li>
+    <li><b>Cold</b> – rarely accessed, ≥90 days; cheaper still.</li>
+    <li><b>Archive</b> – rarely accessed, ≥180 days; cheapest storage, highest retrieval cost &amp; latency (offline).</li>
+  </ul>
+  <h4>Redundancy options</h4>
+  <table>
+    <tr><th>Option</th><th>Copies</th><th>Scope</th></tr>
+    <tr><td><b>LRS</b> Locally-redundant</td><td>3</td><td>One datacentre.</td></tr>
+    <tr><td><b>ZRS</b> Zone-redundant</td><td>3</td><td>Across availability zones in one region.</td></tr>
+    <tr><td><b>GRS</b> Geo-redundant</td><td>6</td><td>LRS in primary + LRS in paired region.</td></tr>
+    <tr><td><b>GZRS</b> Geo-zone-redundant</td><td>6</td><td>ZRS in primary + LRS in paired region (max durability).</td></tr>
+  </table>
+  <div class="tip"><b>Migration tools:</b> <b>AzCopy</b> (CLI copy to blobs), <b>Azure Storage Explorer</b> (GUI), <b>Azure File Sync</b> (centralise file shares), <b>Azure Migrate</b> (assess &amp; migrate), <b>Data Box</b> (physical device to ship large data offline).</div>
+
+  <h3>Identity, Access &amp; Security</h3>
+  <p class="lead">Note: in the current syllabus this sits under <b>Azure architecture &amp; services</b>, not management &amp; governance.</p>
+  <ul>
+    <li><b>Microsoft Entra ID</b> (formerly Azure AD) – cloud identity &amp; access management; sign-in &amp; directory service.</li>
+    <li><b>Authentication (AuthN)</b> = proving who you are. <b>Authorization (AuthZ)</b> = what you're allowed to do.</li>
+    <li><b>Single Sign-On (SSO)</b> – one set of credentials for many apps.</li>
+    <li><b>Multi-Factor Authentication (MFA)</b> – two+ of: something you <i>know</i> (password), <i>have</i> (phone/token), <i>are</i> (biometrics).</li>
+    <li><b>Passwordless authentication</b> – sign in without a password using Windows Hello, the Microsoft Authenticator app, or a FIDO2 security key. More secure &amp; convenient than passwords.</li>
+    <li><b>Conditional Access</b> – grant/block/require MFA based on signals (location, device, risk).</li>
+    <li><b>Entra Domain Services</b> – managed domain services (join, group policy, LDAP) without managing domain controllers.</li>
+    <li><b>External identities</b> – B2B (partners) &amp; B2C (customers).</li>
+  </ul>
+  <h4>Zero Trust &amp; Defence in Depth</h4>
+  <div class="grid2">
+    <div class="card"><h4>Zero Trust</h4><ul><li>"Never trust, always verify."</li><li>Verify explicitly, least-privilege access, assume breach.</li></ul></div>
+    <div class="card"><h4>Defence in Depth</h4><ul><li>Layered security; if one layer fails, others protect.</li><li>Layers: physical → identity → perimeter → network → compute → app → data.</li></ul></div>
+  </div>
+  <h4>Access control &amp; security tools</h4>
+  <ul>
+    <li><b>Azure RBAC (Role-Based Access Control)</b> – assign roles (Owner, Contributor, Reader) at a scope (MG/sub/RG/resource); least-privilege.</li>
+    <li><b>Microsoft Defender for Cloud</b> – security posture management &amp; threat protection; secure score.</li>
+    <li><b>Azure DDoS Protection</b>, <b>Azure Firewall</b>, <b>Key Vault</b> (store secrets/keys/certs).</li>
+  </ul>
+  <div class="exam"><b>Exam tip:</b> <b>Entra ID</b> = identity. <b>RBAC</b> = what a user can do to Azure resources. <b>Defender for Cloud</b> = security monitoring/score. <b>Conditional Access</b> = sign-in policies (e.g. require MFA off-network).</div>
+</section>
+
+<!-- ============ DOMAIN 3 ============ -->
+<section id="d3">
+  <h2>Domain 3 — Management &amp; Governance <span class="pct">30–35%</span></h2>
+  <p class="lead">Cost management, governance &amp; compliance, and the tools to deploy &amp; monitor everything. (Identity, access &amp; security is covered in Domain 2 per the current syllabus.)</p>
+
+  <h3>Cost Management</h3>
+  <ul>
+    <li><b>Factors affecting cost:</b> resource type, consumption, region, network traffic (egress/bandwidth), billing zone.</li>
+    <li><b>Azure Pricing Calculator</b> – estimate cost of a planned solution <i>before</i> deploying.</li>
+    <li><b>TCO (Total Cost of Ownership) Calculator</b> – compare on-premises cost vs Azure (shows savings). <i>(Useful background — no longer an explicit exam objective.)</i></li>
+    <li><b>Microsoft Cost Management</b> – analyse, monitor &amp; control <i>actual</i> spend; set <b>budgets</b> &amp; alerts.</li>
+    <li><b>Tags</b> – metadata (key:value) on resources to organise &amp; track cost by department/project/environment.</li>
+  </ul>
+  <h4>Ways to reduce cost</h4>
+  <ul>
+    <li><b>Reservations</b> (reserved instances) – commit 1 or 3 years for big discounts.</li>
+    <li><b>Azure Hybrid Benefit</b> – reuse existing Windows Server / SQL licences.</li>
+    <li><b>Spot VMs</b> – use spare capacity at deep discount (can be evicted).</li>
+    <li>Right-size, autoscale, shut down idle resources, choose cheaper regions.</li>
+  </ul>
+  <div class="exam"><b>Exam tip:</b> <b>Pricing Calculator</b> = estimate a new solution. <b>TCO Calculator</b> = compare on-prem vs cloud. <b>Cost Management</b> = track/limit money already being spent.</div>
+
+  <h3>Governance &amp; Compliance</h3>
+  <table>
+    <tr><th>Tool</th><th>What it does</th></tr>
+    <tr><td><b>Azure Policy</b></td><td>Enforce rules / compliance (e.g. "only allowed regions", "must have a tag"). Audits &amp; can deny non-compliant resources.</td></tr>
+    <tr><td><b>Resource Locks</b></td><td>Prevent accidental change/deletion. <b>CanNotDelete</b> (read/modify, no delete) or <b>ReadOnly</b> (read only).</td></tr>
+    <tr><td><b>Azure Blueprints</b></td><td>Package policies, RBAC, ARM templates into a repeatable environment definition.</td></tr>
+    <tr><td><b>Resource Tags</b></td><td>Organise resources &amp; support governance/cost reporting.</td></tr>
+    <tr><td><b>Microsoft Purview</b></td><td>Unified data governance — discover, classify &amp; map data across the estate.</td></tr>
+    <tr><td><b>Service Trust Portal</b></td><td>Access compliance reports, audit docs &amp; security info.</td></tr>
+  </table>
+  <div class="tip"><b>Lock vs Policy:</b> a <b>lock</b> protects a specific resource from deletion/edits; a <b>policy</b> enforces rules across many resources (allowed types, regions, tags). <i>(Azure Blueprints and the Service Trust Portal are useful background but are no longer listed objectives.)</i></div>
+
+  <h3>Tools for Managing &amp; Deploying</h3>
+  <table>
+    <tr><th>Tool</th><th>Use</th></tr>
+    <tr><td><b>Azure Portal</b></td><td>Web GUI to manage everything.</td></tr>
+    <tr><td><b>Azure Cloud Shell</b></td><td>Browser-based shell (Bash or PowerShell).</td></tr>
+    <tr><td><b>Azure CLI</b> / <b>Azure PowerShell</b></td><td>Command-line management &amp; scripting.</td></tr>
+    <tr><td><b>Azure Mobile App</b></td><td>Monitor &amp; manage on the go.</td></tr>
+    <tr><td><b>ARM templates / Bicep</b></td><td>Infrastructure-as-Code — declarative, repeatable deployments.</td></tr>
+    <tr><td><b>Azure Arc</b></td><td>Extend Azure management to on-prem, multi-cloud &amp; edge.</td></tr>
+  </table>
+
+  <h3>Monitoring Tools</h3>
+  <table>
+    <tr><th>Tool</th><th>Purpose</th></tr>
+    <tr><td><b>Azure Advisor</b></td><td>Personalised recommendations: cost, security, reliability, performance, operational excellence.</td></tr>
+    <tr><td><b>Azure Service Health</b></td><td>Status of Azure services affecting <i>your</i> resources (outages, planned maintenance, health advisories).</td></tr>
+    <tr><td><b>Azure Monitor</b></td><td>Central platform: collect metrics &amp; logs, alerts, dashboards.</td></tr>
+    <tr><td><b>Log Analytics</b></td><td>Query log data (within Azure Monitor) using KQL.</td></tr>
+    <tr><td><b>Application Insights</b></td><td>Monitor live app performance &amp; usage (APM).</td></tr>
+  </table>
+  <div class="exam"><b>Exam tip:</b> <b>Advisor</b> = recommendations. <b>Service Health</b> = is Azure itself having issues. <b>Monitor</b> = collect/alert on your telemetry. <b>App Insights</b> = your application's performance.</div>
+
+  <h3>Service Level Agreements (SLAs)</h3>
+  <ul>
+    <li><b>SLA</b> = Microsoft's commitment to uptime &amp; connectivity, expressed as a % (e.g. 99.9%).</li>
+    <li>Higher 9s = less downtime: 99.9% ≈ 8.76 h/yr down; 99.99% ≈ 52 min/yr.</li>
+    <li>Composite SLA: multiply service SLAs (chaining services <i>lowers</i> the combined SLA).</li>
+    <li><b>Service Credits</b>: if Microsoft misses the SLA, you may get billing credits.</li>
+    <li><b>Free/Preview</b> services generally have <b>no SLA</b>. Adding AZs/redundancy raises effective availability.</li>
+  </ul>
+</section>
+
+<!-- ============ CHEAT SHEET ============ -->
+<section id="cheat">
+  <h2>One-Page Cheat Sheet</h2>
+  <div class="grid2">
+    <div class="card">
+      <h4>Pick the service type</h4>
+      <ul>
+        <li>Full control / lift-and-shift → <b>IaaS (VM)</b></li>
+        <li>Build app, no OS hassle → <b>PaaS (App Service)</b></li>
+        <li>Just use software → <b>SaaS (M365)</b></li>
+        <li>Event-driven, serverless → <b>Functions</b></li>
+        <li>Many containers at scale → <b>AKS</b></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Pick the cost tool</h4>
+      <ul>
+        <li>Estimate a new build → <b>Pricing Calculator</b></li>
+        <li>On-prem vs cloud comparison → <b>TCO Calculator</b></li>
+        <li>Track/limit live spend → <b>Cost Management</b></li>
+        <li>Discount for 1–3 yr commit → <b>Reservations</b></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Pick the connectivity</h4>
+      <ul>
+        <li>Private, dedicated, fast → <b>ExpressRoute</b></li>
+        <li>Encrypted over internet → <b>VPN Gateway</b></li>
+        <li>VNet ↔ VNet → <b>Peering</b></li>
+        <li>Filter traffic → <b>NSG</b></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Pick the monitor/govern tool</h4>
+      <ul>
+        <li>Recommendations → <b>Advisor</b></li>
+        <li>Azure outages → <b>Service Health</b></li>
+        <li>Enforce rules → <b>Azure Policy</b></li>
+        <li>Stop deletion → <b>Resource Lock</b></li>
+        <li>Security score → <b>Defender for Cloud</b></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ QUIZ ============ -->
+<section id="quiz">
+  <h2>Interactive Practice Exam</h2>
+  <p class="lead">64 original exam-style questions, tagged by domain and covering every objective. Click an answer to see if you're right and why; your score updates live. For the official practice test, use Microsoft's free <a href="https://learn.microsoft.com/en-us/credentials/certifications/exams/az-900/practice/assessment" style="color:var(--accent2)">AZ-900 practice assessment</a>.</p>
+  <div class="quiz" id="quizBox"></div>
+  <div style="text-align:center;margin-top:14px">
+    <button class="btn" onclick="revealAll()">Reveal all answers</button>
+    <button class="btn ghost" onclick="resetQuiz()">Reset</button>
+  </div>
+</section>
+
+</div>
+
+<div id="scorebar">Score: <span class="s" id="score">0</span> / <span id="total">0</span> answered · <span id="pct2">—</span></div>
+
+<footer>
+  AZ-900 revision guide · Unofficial study aid. Always confirm against the current
+  Microsoft <i>Exam AZ-900: Skills Measured</i> document. Good luck, Atharv! 🎯
+</footer>
+
+<script>
+const QUESTIONS = [
+ {q:"A company wants to pay only for the compute resources it actually uses, with no upfront hardware purchase. Which model is this?",
+  o:["Capital expenditure (CapEx)","Consumption-based (OpEx)","Total cost of ownership","Fixed licensing"],a:1,
+  e:"The consumption-based model is operational expenditure — pay as you go, no upfront cost."},
+ {q:"You need maximum control over the operating system and want to lift-and-shift existing servers. Which service type fits best?",
+  o:["SaaS","PaaS","IaaS","FaaS"],a:2,
+  e:"IaaS (e.g. Azure VMs) gives you the most control, including the OS — ideal for lift-and-shift."},
+ {q:"Which of these is ALWAYS the customer's responsibility in the shared responsibility model, regardless of service type?",
+  o:["Physical datacentre security","Data and access/identities","Physical network","Host hardware"],a:1,
+  e:"Data, accounts/identities and devices are always the customer's responsibility. Physical layers are always the provider's."},
+ {q:"An organisation wants to keep sensitive data on private infrastructure while bursting other workloads to the public cloud. Which deployment model?",
+  o:["Public cloud","Private cloud","Hybrid cloud","Community cloud"],a:2,
+  e:"Hybrid combines public and private — keep sensitive data private, scale elsewhere in public."},
+ {q:"What is the term for automatically adding and removing resources to match demand?",
+  o:["Elasticity","Latency","Redundancy","Availability"],a:0,
+  e:"Elasticity is the automatic scaling of resources up and down with demand."},
+ {q:"What are Availability Zones?",
+  o:["Two regions 300+ miles apart","Physically separate datacentres within a single region","Logical billing containers","Copies of data in one datacentre"],a:1,
+  e:"AZs are physically separate datacentres (own power, cooling, network) inside one region, for high availability."},
+ {q:"Which Azure resource is a logical container that holds related resources and shares their lifecycle?",
+  o:["Management group","Subscription","Resource group","Availability set"],a:2,
+  e:"A resource group is a logical container; deleting it deletes the resources within it."},
+ {q:"You need to run many containers as microservices with orchestration, scaling and self-healing. Which service?",
+  o:["Azure Container Instances","Azure Kubernetes Service (AKS)","Azure Functions","App Service"],a:1,
+  e:"AKS provides managed Kubernetes for orchestrating many containers at scale."},
+ {q:"Which connectivity option provides a PRIVATE, dedicated connection to Azure that does not travel over the public internet?",
+  o:["VPN Gateway","VNet Peering","ExpressRoute","Azure DNS"],a:2,
+  e:"ExpressRoute is a private dedicated link — not over the public internet — offering higher reliability and speed."},
+ {q:"Which storage solution is best for storing large amounts of unstructured data such as images and video?",
+  o:["Azure Files","Blob Storage","Table Storage","Queue Storage"],a:1,
+  e:"Blob (object) Storage is designed for unstructured data like images, video, backups and logs."},
+ {q:"You need the cheapest storage for data accessed less than once every 180 days and can tolerate retrieval latency. Which blob tier?",
+  o:["Hot","Cool","Cold","Archive"],a:3,
+  e:"The Archive tier is the cheapest for storage but has the highest retrieval cost/latency; data must be rehydrated."},
+ {q:"Which redundancy option copies data across availability zones within the primary region?",
+  o:["LRS","ZRS","GRS","Read-access GRS"],a:1,
+  e:"ZRS (zone-redundant storage) replicates across availability zones in the primary region."},
+ {q:"You want to ESTIMATE the monthly cost of a solution you plan to build in Azure. Which tool?",
+  o:["TCO Calculator","Azure Pricing Calculator","Microsoft Cost Management","Azure Advisor"],a:1,
+  e:"The Pricing Calculator estimates the cost of a planned configuration before deployment."},
+ {q:"Which tool compares the cost of running workloads on-premises versus in Azure?",
+  o:["Pricing Calculator","TCO Calculator","Cost Management","Service Health"],a:1,
+  e:"The Total Cost of Ownership (TCO) Calculator compares on-premises costs with Azure."},
+ {q:"You must ensure no one accidentally deletes a critical production resource. What should you apply?",
+  o:["An Azure Policy","A resource lock (CanNotDelete)","A tag","An NSG rule"],a:1,
+  e:"A CanNotDelete resource lock prevents deletion while still allowing read/modify."},
+ {q:"Which service enforces organisational rules such as 'resources may only be created in approved regions'?",
+  o:["Azure Blueprints","Azure Policy","Resource locks","Microsoft Purview"],a:1,
+  e:"Azure Policy enforces and audits compliance rules like allowed regions, types or required tags."},
+ {q:"A user must provide a password AND approve a prompt on their phone to sign in. What security feature is this?",
+  o:["Single Sign-On","Conditional Access","Multi-Factor Authentication","Role-Based Access Control"],a:2,
+  e:"MFA requires two or more factors: something you know, have, or are."},
+ {q:"Which tool gives personalised recommendations across cost, security, reliability, performance and operational excellence?",
+  o:["Azure Monitor","Azure Advisor","Azure Service Health","Application Insights"],a:1,
+  e:"Azure Advisor analyses your resources and provides best-practice recommendations across five pillars."},
+ {q:"You want to know whether an ongoing Azure outage is affecting your specific resources. Which tool?",
+  o:["Azure Advisor","Azure Service Health","Azure Policy","Log Analytics"],a:1,
+  e:"Azure Service Health shows the health of Azure services and issues affecting your resources."},
+ {q:"Microsoft commits to 99.9% uptime for a service. What is this commitment called?",
+  o:["A service credit","A service level agreement (SLA)","A composite SLA","A support plan"],a:1,
+  e:"An SLA is Microsoft's formal commitment to uptime/performance; missing it can yield service credits."},
+ {q:"A team wants to run small pieces of code that scale automatically, require no server management, and are billed only while running. Which approach is this?",
+  o:["Infrastructure as a service","Serverless (e.g. Azure Functions)","A virtual machine scale set","Azure Virtual Desktop"],a:1,
+  e:"Serverless (Azure Functions) needs no server management, auto-scales, and charges only per execution."},
+ {q:"You want a storage account to be reachable only from inside your virtual network, with traffic staying off the public internet. What should you use?",
+  o:["A public endpoint","A private endpoint","An NSG allow rule","VNet peering"],a:1,
+  e:"A private endpoint gives the service a private IP in your VNet so traffic stays on the Azure backbone."},
+ {q:"Which authentication method lets users sign in WITHOUT a password, for example using Windows Hello or a FIDO2 key?",
+  o:["Single sign-on","Passwordless authentication","Conditional Access","RBAC"],a:1,
+  e:"Passwordless authentication replaces the password with biometrics, the Authenticator app, or a FIDO2 security key."},
+ {q:"Which Azure entity sits ABOVE subscriptions and lets you apply policy and access control to many subscriptions at once?",
+  o:["Resource group","Management group","Availability zone","Region pair"],a:1,
+  e:"Management groups sit above subscriptions; policies and RBAC applied there are inherited by all subscriptions beneath."},
+
+ // ---- Domain 1: Cloud Concepts ----
+ {d:1,q:"A company buys physical servers and installs them in its own datacentre. What type of expenditure is this?",
+  o:["Operational expenditure (OpEx)","Capital expenditure (CapEx)","Consumption-based spend","A reserved instance"],a:1,
+  e:"Buying physical infrastructure upfront is capital expenditure (CapEx). Cloud consumption is OpEx."},
+ {d:1,q:"An application must keep running even if an entire Azure datacentre fails. Which benefit best describes this goal?",
+  o:["Elasticity","High availability","Agility","Governance"],a:1,
+  e:"High availability keeps services running with minimal downtime, e.g. by spreading across availability zones."},
+ {d:1,q:"Adding more identical virtual machines behind a load balancer to handle increased load is an example of what?",
+  o:["Vertical scaling (scaling up)","Horizontal scaling (scaling out)","Disaster recovery","Fault tolerance"],a:1,
+  e:"Adding more instances is horizontal scaling (scaling out). Adding CPU/RAM to one machine is vertical (scaling up)."},
+ {d:1,q:"In the SaaS model, who is responsible for patching the underlying operating system?",
+  o:["The customer","The cloud provider","Shared equally","No one — SaaS has no OS"],a:1,
+  e:"In SaaS the provider manages everything except your data and access; OS patching is the provider's responsibility."},
+ {d:1,q:"An organisation needs complete control over its hardware for strict regulatory compliance and is willing to pay more. Which deployment model fits?",
+  o:["Public cloud","Private cloud","Hybrid cloud","Serverless"],a:1,
+  e:"A private cloud is dedicated to one organisation, giving maximum control and compliance at higher cost."},
+ {d:1,q:"Being able to forecast both performance (via autoscaling) and cost (via cost tools) is which cloud benefit?",
+  o:["Reliability","Predictability","Elasticity","Manageability"],a:1,
+  e:"Predictability covers both performance predictability (autoscale, load balancing) and cost predictability."},
+ {d:1,q:"Which statement best describes the consumption-based pricing model?",
+  o:["Pay a large fee upfront, then nothing","Pay only for the resources you use, with no upfront cost","Pay a fixed monthly fee regardless of usage","Pay only when the system is idle"],a:1,
+  e:"Consumption-based pricing means no upfront cost — you pay only for what you consume and stop paying when you stop using it."},
+
+ // ---- Domain 2: Architecture & Services ----
+ {d:2,q:"Approximately how far apart are the two regions in an Azure region pair?",
+  o:["At least 30 miles","At least 300 miles","Within the same city","Anywhere in the world"],a:1,
+  e:"Region pairs are at least 300 miles (about 480 km) apart to reduce the chance a single disaster affects both."},
+ {d:2,q:"A US government agency needs a physically and logically isolated Azure instance for compliance. What should it use?",
+  o:["A standard public region","Azure Government (a sovereign region)","An availability zone","A resource group"],a:1,
+  e:"Sovereign/isolated instances such as Azure Government (US) and Azure China (21Vianet) meet these compliance needs."},
+ {d:2,q:"You need to run a single, short-lived container quickly without managing any orchestration. Which service is simplest?",
+  o:["Azure Kubernetes Service (AKS)","Azure Container Instances (ACI)","Azure Virtual Machines","Azure App Service"],a:1,
+  e:"ACI runs individual containers fast and serverlessly. AKS is for orchestrating many containers at scale."},
+ {d:2,q:"You want to protect VMs against hardware and maintenance failures WITHIN a single datacentre using fault and update domains. What do you use?",
+  o:["Availability zones","An availability set","A region pair","VNet peering"],a:1,
+  e:"Availability sets spread VMs across fault and update domains inside a datacentre. Availability zones protect across datacentres."},
+ {d:2,q:"Which service automatically increases or decreases the number of identical VMs based on demand?",
+  o:["Availability set","Virtual Machine Scale Sets","Azure Functions","Azure Arc"],a:1,
+  e:"VM Scale Sets provide autoscaling groups of identical, load-balanced VMs."},
+ {d:2,q:"Employees need secure, cloud-hosted Windows desktops they can access from anywhere. Which service?",
+  o:["Azure Virtual Desktop","Azure App Service","Azure Functions","Azure Container Instances"],a:0,
+  e:"Azure Virtual Desktop delivers cloud-hosted virtualised desktops (VDI) accessible from anywhere."},
+ {d:2,q:"You need two virtual networks to communicate privately with low latency over the Microsoft backbone. What do you configure?",
+  o:["A VPN Gateway","VNet peering","Azure DNS","A public endpoint"],a:1,
+  e:"VNet peering connects two VNets so resources communicate privately over the Azure backbone network."},
+ {d:2,q:"Which service distributes incoming network traffic across multiple healthy backend resources?",
+  o:["Azure DNS","Load Balancer","Network Security Group","ExpressRoute"],a:1,
+  e:"Azure Load Balancer distributes traffic (Layer 4) across healthy instances to improve availability and scale."},
+ {d:2,q:"You want to filter inbound and outbound traffic to a subnet using allow/deny rules. Which feature?",
+  o:["Azure DNS","Network Security Group (NSG)","VNet peering","Azure Monitor"],a:1,
+  e:"An NSG contains security rules that allow or deny traffic to/from subnets and network interfaces."},
+ {d:2,q:"A company wants to replace its on-premises file server with a managed SMB file share it can mount as a network drive. Which storage service?",
+  o:["Blob Storage","Azure Files","Queue Storage","Table Storage"],a:1,
+  e:"Azure Files provides fully managed SMB/NFS file shares that can be mounted like a network drive."},
+ {d:2,q:"To decouple application components by passing messages between them, which storage service is appropriate?",
+  o:["Blob Storage","Queue Storage","Disk Storage","Table Storage"],a:1,
+  e:"Queue Storage stores messages so application components can communicate asynchronously (decoupling)."},
+ {d:2,q:"Which redundancy option keeps three copies of data within a single datacentre at the lowest cost?",
+  o:["Locally-redundant storage (LRS)","Zone-redundant storage (ZRS)","Geo-redundant storage (GRS)","Geo-zone-redundant storage (GZRS)"],a:0,
+  e:"LRS keeps three copies in one datacentre — cheapest, but no protection if that datacentre fails."},
+ {d:2,q:"You need maximum durability: data replicated across availability zones in the primary region AND to a second region. Which option?",
+  o:["LRS","ZRS","GRS","GZRS"],a:3,
+  e:"GZRS combines zone redundancy in the primary region with geo-replication to the paired region for maximum durability."},
+ {d:2,q:"You want to keep an on-premises Windows file server in sync with Azure file shares. Which tool?",
+  o:["AzCopy","Azure File Sync","Azure Data Box","Azure Migrate"],a:1,
+  e:"Azure File Sync centralises file shares in Azure while keeping a local cache in sync on the on-prem server."},
+ {d:2,q:"You must move 500 TB of data to Azure but have limited network bandwidth. What is the best option?",
+  o:["AzCopy over the internet","Azure Data Box (physical device)","Azure DNS","VNet peering"],a:1,
+  e:"Azure Data Box is a physical appliance you load and ship to Microsoft — ideal for very large offline transfers."},
+ {d:2,q:"Which service lets you join Azure VMs to a managed domain, use group policy and LDAP, without deploying domain controllers?",
+  o:["Microsoft Entra ID","Microsoft Entra Domain Services","Azure RBAC","Conditional Access"],a:1,
+  e:"Entra Domain Services provides managed domain features (domain join, group policy, LDAP) with no DCs to manage."},
+ {d:2,q:"Your company wants to let partner businesses sign in to a shared app using their own credentials. Which capability?",
+  o:["B2B external identities","Passwordless sign-in","A resource lock","Azure Policy"],a:0,
+  e:"B2B (business-to-business) external identities let external partners access resources using their own identities."},
+ {d:2,q:"Following least privilege, which built-in RBAC role should you give someone who only needs to VIEW resources?",
+  o:["Owner","Contributor","Reader","User Access Administrator"],a:2,
+  e:"Reader grants view-only access. Contributor can manage resources; Owner can also manage access."},
+ {d:2,q:"Which service provides a secure score and continuous security posture recommendations and threat protection?",
+  o:["Azure Advisor","Microsoft Defender for Cloud","Azure Monitor","Microsoft Purview"],a:1,
+  e:"Microsoft Defender for Cloud assesses security posture (secure score) and provides threat protection."},
+ {d:2,q:"Storing application secrets, keys and certificates securely in Azure is the job of which service?",
+  o:["Azure Key Vault","Azure DNS","Azure Policy","Azure Advisor"],a:0,
+  e:"Azure Key Vault securely stores and manages secrets, encryption keys and certificates."},
+ {d:2,q:"'Verify explicitly, use least-privilege access, and assume breach' are the principles of which security model?",
+  o:["Defence in depth","Zero Trust","Shared responsibility","Conditional Access"],a:1,
+  e:"These three principles define the Zero Trust model — never trust, always verify."},
+
+ // ---- Domain 3: Management & Governance ----
+ {d:3,q:"Which of the following typically increases your Azure costs?",
+  o:["Inbound data transfer into Azure","Outbound data transfer (egress) out of Azure","Deleting unused resources","Using a resource lock"],a:1,
+  e:"Outbound data transfer (egress) is commonly billed; inbound is usually free. Deleting idle resources reduces cost."},
+ {d:3,q:"You want to track and report Azure spend by department and project. Which feature helps organise this?",
+  o:["Resource locks","Resource tags","Availability zones","Azure Policy"],a:1,
+  e:"Tags are key:value metadata applied to resources, enabling cost reporting and organisation by department/project."},
+ {d:3,q:"You apply a ReadOnly lock to a resource. What can users still do?",
+  o:["Delete it","Modify its settings","Only read/view it","Move it to another subscription"],a:2,
+  e:"A ReadOnly lock allows viewing only — no modifications and no deletion."},
+ {d:3,q:"Which service helps you discover, classify and govern data across your data estate?",
+  o:["Microsoft Purview","Azure Advisor","Azure Monitor","Azure Key Vault"],a:0,
+  e:"Microsoft Purview provides unified data governance — discovery, classification and mapping of data."},
+ {d:3,q:"You want a browser-based shell to run Azure CLI or PowerShell commands without installing anything. What do you use?",
+  o:["Azure Arc","Azure Cloud Shell","Azure Resource Manager","Application Insights"],a:1,
+  e:"Azure Cloud Shell is a browser-based shell offering Bash or PowerShell with tools pre-installed."},
+ {d:3,q:"A company wants to manage on-premises servers and AWS VMs using Azure management tooling. Which service enables this?",
+  o:["Azure Arc","VNet peering","Azure Migrate","Azure Policy"],a:0,
+  e:"Azure Arc extends Azure management and governance to on-premises, multi-cloud and edge resources."},
+ {d:3,q:"Deploying resources using declarative JSON or Bicep files for repeatable, consistent environments is an example of what?",
+  o:["Manual deployment","Infrastructure as Code (IaC)","A resource lock","Vertical scaling"],a:1,
+  e:"ARM templates/Bicep are Infrastructure as Code — declarative, repeatable, version-controllable deployments."},
+ {d:3,q:"Which tool gives personalised best-practice recommendations across cost, security, reliability, operational excellence and performance?",
+  o:["Azure Service Health","Azure Advisor","Azure Monitor","Microsoft Purview"],a:1,
+  e:"Azure Advisor analyses your usage and recommends improvements across those five pillars."},
+ {d:3,q:"Where would you check whether a current Azure platform outage is impacting your specific resources?",
+  o:["Azure Advisor","Azure Service Health","Azure Policy","Log Analytics"],a:1,
+  e:"Azure Service Health reports service issues, planned maintenance and health advisories affecting your resources."},
+ {d:3,q:"Within Azure Monitor, which component lets you write KQL queries against collected log data?",
+  o:["Application Insights","Log Analytics","Service Health","Advisor"],a:1,
+  e:"Log Analytics is the tool within Azure Monitor for querying log data using Kusto Query Language (KQL)."},
+ {d:3,q:"You chain two services with SLAs of 99.9% each in a dependent workflow. What happens to the combined (composite) SLA?",
+  o:["It increases above 99.9%","It stays exactly 99.9%","It decreases below 99.9%","SLAs cannot be combined"],a:2,
+  e:"Composite SLAs are multiplied (0.999 × 0.999 ≈ 99.8%), so chaining dependent services lowers the combined SLA."},
+ {d:3,q:"Which tool should you use to ESTIMATE the cost of a planned Azure deployment before you build it?",
+  o:["Microsoft Cost Management","The Azure Pricing Calculator","Azure Advisor","Azure Monitor"],a:1,
+  e:"The Pricing Calculator estimates the cost of a proposed configuration before deployment; Cost Management tracks actual spend."}
+];
+
+const box = document.getElementById('quizBox');
+let answered = new Array(QUESTIONS.length).fill(false);
+let correct = 0;
+
+function render(){
+  box.innerHTML='';
+  QUESTIONS.forEach((item,qi)=>{
+    const div=document.createElement('div'); div.className='q';
+    if(item.d){const tag=document.createElement('span');tag.className='pill';tag.textContent='Domain '+item.d;div.appendChild(tag);}
+    const stem=document.createElement('div'); stem.className='stem';
+    stem.textContent=(qi+1)+'. '+item.q; div.appendChild(stem);
+    item.o.forEach((opt,oi)=>{
+      const b=document.createElement('button'); b.className='opt';
+      b.textContent=String.fromCharCode(65+oi)+'. '+opt;
+      b.onclick=()=>choose(qi,oi,div); div.appendChild(b);
+    });
+    const ex=document.createElement('div'); ex.className='expl';
+    ex.innerHTML='<b>Correct: '+String.fromCharCode(65+item.a)+'.</b> '+item.e;
+    div.appendChild(ex);
+    box.appendChild(div);
+  });
+  updateScore();
+}
+function choose(qi,oi,div){
+  if(answered[qi]) return;
+  answered[qi]=true;
+  const opts=div.querySelectorAll('.opt');
+  opts.forEach((b,i)=>{
+    b.classList.add('disabled');
+    if(i===QUESTIONS[qi].a) b.classList.add('correct');
+    if(i===oi && oi!==QUESTIONS[qi].a) b.classList.add('wrong');
+  });
+  if(oi===QUESTIONS[qi].a) correct++;
+  div.querySelector('.expl').classList.add('show');
+  updateScore();
+}
+function revealAll(){
+  QUESTIONS.forEach((item,qi)=>{
+    const div=box.children[qi];
+    if(!answered[qi]){
+      answered[qi]=true;
+      const opts=div.querySelectorAll('.opt');
+      opts.forEach((b,i)=>{b.classList.add('disabled'); if(i===item.a) b.classList.add('correct');});
+    }
+    div.querySelector('.expl').classList.add('show');
+  });
+  updateScore();
+}
+function resetQuiz(){answered.fill(false);correct=0;render();window.scrollTo({top:document.getElementById('quiz').offsetTop-60,behavior:'smooth'});}
+function updateScore(){
+  const ans=answered.filter(Boolean).length;
+  document.getElementById('score').textContent=correct;
+  document.getElementById('total').textContent=ans;
+  const p = ans? Math.round(correct/ans*100):0;
+  document.getElementById('pct2').textContent = ans? (p+'% correct'+(p>=70?' ✅ passing':'')) : '—';
+}
+render();
+</script>
+</body>
+</html>
